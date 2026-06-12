@@ -1,12 +1,12 @@
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import type {
+  ChampionPickRow,
+  ChampionResultRow,
   DashboardData,
-  DeviationRow,
   MatchPointsRow,
   MatchRow,
   PointsLeaderboardRow,
   PredictionRow,
-  PredictionScoreRow,
 } from "@/lib/types";
 
 type SupabaseResult<T> = {
@@ -22,16 +22,28 @@ function assertResult<T>(label: string, result: SupabaseResult<T>): T[] {
   return result.data ?? [];
 }
 
+function isMissingRelation(error: { message: string } | null) {
+  return Boolean(
+    error?.message.match(/relation .* does not exist/i) ||
+      error?.message.match(/could not find the table/i),
+  );
+}
+
+function optionalResult<T>(label: string, result: SupabaseResult<T>): T[] {
+  if (isMissingRelation(result.error)) return [];
+  return assertResult(label, result);
+}
+
 export async function getDashboardData(): Promise<DashboardData> {
   const supabase = getSupabaseServerClient();
 
   const [
     matches,
     predictions,
-    deviations,
+    championPicks,
+    championResult,
     pointsLeaderboard,
     matchPoints,
-    predictionScores,
   ] = await Promise.all([
     supabase
       .from("matches")
@@ -44,10 +56,15 @@ export async function getDashboardData(): Promise<DashboardData> {
       .eq("snapshot", "lock")
       .returns<PredictionRow[]>(),
     supabase
-      .from("deviations")
+      .from("champion_picks")
       .select("*")
-      .order("created_at", { ascending: false })
-      .returns<DeviationRow[]>(),
+      .order("source", { ascending: true })
+      .order("rank", { ascending: true })
+      .returns<ChampionPickRow[]>(),
+    supabase
+      .from("champion_result")
+      .select("*")
+      .maybeSingle<ChampionResultRow>(),
     supabase
       .from("points_leaderboard")
       .select("*")
@@ -57,18 +74,20 @@ export async function getDashboardData(): Promise<DashboardData> {
       .select("*")
       .order("kickoff_utc", { ascending: false })
       .returns<MatchPointsRow[]>(),
-    supabase
-      .from("prediction_scores")
-      .select("*")
-      .returns<PredictionScoreRow[]>(),
   ]);
 
   return {
     matches: assertResult("matches", matches),
     predictions: assertResult("predictions", predictions),
-    deviations: assertResult("deviations", deviations),
+    championPicks: optionalResult("champion_picks", championPicks),
+    championResult: isMissingRelation(championResult.error)
+      ? null
+      : championResult.error
+      ? (() => {
+          throw new Error(`champion_result: ${championResult.error.message}`);
+        })()
+      : (championResult.data ?? null),
     pointsLeaderboard: assertResult("points_leaderboard", pointsLeaderboard),
     matchPoints: assertResult("match_points", matchPoints),
-    predictionScores: assertResult("prediction_scores", predictionScores),
   };
 }

@@ -46,8 +46,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             {error instanceof Error ? error.message : "Unknown Supabase error."}
           </p>
           <p className="mt-3 text-sm leading-6 text-neutral-300">
-            Run the schema, seed, `supabase/patch1.sql`, and `supabase/patch2.sql`,
-            then refresh this page.
+            Run the schema, seed, `supabase/patch1.sql`, `supabase/patch2.sql`,
+            and `supabase/patch3.sql`, then refresh this page.
           </p>
         </div>
       </main>

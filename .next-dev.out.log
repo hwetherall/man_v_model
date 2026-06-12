@@ -6,9 +6,14 @@
 - Local:         http://127.0.0.1:3000
 - Network:       http://127.0.0.1:3000
 - Environments: .env
-✓ Ready in 1028ms
+✓ Ready in 1059ms
 Creating turbopack project { dir: 'C:\\dev\\personal\\man_v_model', testMode: true }
 
- GET / 200 in 1414ms (next.js: 463ms, application-code: 951ms)
-  Reload env: .env
- GET / 200 in 690ms (next.js: 189ms, application-code: 501ms)
+ POST /api/sync-matches 200 in 11.0s (next.js: 757ms, application-code: 10.3s)
+ GET / 200 in 885ms (next.js: 309ms, application-code: 576ms)
+ GET / 200 in 376ms (next.js: 133ms, application-code: 243ms)
+ POST /api/sync-matches 200 in 9.8s (next.js: 137ms, application-code: 9.7s)
+ GET / 200 in 438ms (next.js: 11ms, application-code: 427ms)
+ GET / 200 in 477ms (next.js: 5ms, application-code: 472ms)
+ POST /api/matches 200 in 833ms (next.js: 234ms, application-code: 599ms)
+ POST /api/matches 200 in 425ms (next.js: 3ms, application-code: 422ms)

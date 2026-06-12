@@ -3,15 +3,6 @@ import type { ReactNode } from "react";
 export type Source = "crowd" | "pele" | "harry";
 export type Pick = "home" | "draw" | "away";
 export type Stage = "group" | "r32" | "r16" | "qf" | "sf" | "third" | "final";
-export type ReasonCode =
-  | "team_news"
-  | "lineup"
-  | "conditions"
-  | "motivation"
-  | "market_move"
-  | "tactical"
-  | "thesis"
-  | "gut";
 
 export const SOURCES: Source[] = ["crowd", "pele", "harry"];
 
@@ -31,28 +22,6 @@ export const STAGE_LABELS: Record<Stage, string> = {
   sf: "Semifinal",
   third: "Third place",
   final: "Final",
-};
-
-export const REASON_CODES: ReasonCode[] = [
-  "team_news",
-  "lineup",
-  "conditions",
-  "motivation",
-  "market_move",
-  "tactical",
-  "thesis",
-  "gut",
-];
-
-export const REASON_LABELS: Record<ReasonCode, string> = {
-  team_news: "Team news",
-  lineup: "Lineup",
-  conditions: "Conditions",
-  motivation: "Motivation",
-  market_move: "Market move",
-  tactical: "Tactical",
-  thesis: "Thesis",
-  gut: "Gut",
 };
 
 export type MatchRow = {
@@ -86,16 +55,20 @@ export type PredictionRow = {
   devig_method: string | null;
 };
 
-export type DeviationRow = {
+export type ChampionPickRow = {
   id: string;
-  match_id: string;
-  market: "result_90" | "to_advance";
-  reason_code: ReasonCode;
-  direction: string;
-  magnitude: number;
-  note: string | null;
-  thesis_tag?: string | null;
+  source: Source;
+  rank: number;
+  team_name: string;
   created_at: string;
+  updated_at: string;
+};
+
+export type ChampionResultRow = {
+  id: boolean;
+  winner_team: string | null;
+  settled_at: string | null;
+  updated_at: string;
 };
 
 export type PointsLeaderboardRow = {
@@ -120,41 +93,19 @@ export type MatchPointsRow = {
   points: number;
 };
 
-export type PredictionScoreRow = {
-  id: string;
-  match_id: string;
-  source: Source;
-  market: "result_90" | "to_advance";
-  stage: Stage;
-  home_team: string;
-  away_team: string;
-  kickoff_utc: string;
-  brier: number | null;
-};
-
 export type DashboardData = {
   matches: MatchRow[];
   predictions: PredictionRow[];
-  deviations: DeviationRow[];
+  championPicks: ChampionPickRow[];
+  championResult: ChampionResultRow | null;
   pointsLeaderboard: PointsLeaderboardRow[];
   matchPoints: MatchPointsRow[];
-  predictionScores: PredictionScoreRow[];
 };
 
 export type PredictionInput = {
   pick: Pick;
   pred_home_goals: number;
   pred_away_goals: number;
-  p_home: number | null;
-  p_draw: number | null;
-  p_away: number | null;
-};
-
-export type DeviationInput = {
-  reason_code: ReasonCode;
-  thesis_tag: string | null;
-  magnitude: number;
-  note: string;
 };
 
 export type SaveMatchPayload = {
@@ -168,7 +119,11 @@ export type SaveMatchPayload = {
     venue: string | null;
   };
   predictions: Record<Source, PredictionInput>;
-  deviation: DeviationInput | null;
+};
+
+export type SaveChampionPayload = {
+  picks: Record<Source, string[]>;
+  winner_team: string | null;
 };
 
 export type AppShellProps = {

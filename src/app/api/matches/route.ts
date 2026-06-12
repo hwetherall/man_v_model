@@ -4,16 +4,11 @@ import { getSupabaseServerClient } from "@/lib/supabase/server";
 import {
   SOURCE_LABELS,
   SOURCES,
-  type DeviationInput,
   type MatchRow,
   type PredictionRow,
   type SaveMatchPayload,
 } from "@/lib/types";
-import {
-  differsFromModel,
-  sourceDirection,
-  validatePrediction,
-} from "@/lib/validation";
+import { validatePrediction } from "@/lib/validation";
 import { NextRequest, NextResponse } from "next/server";
 
 function trimToNull(value: string | null | undefined) {
@@ -40,28 +35,6 @@ function validationErrors(payload: SaveMatchPayload) {
         error.replace(source, SOURCE_LABELS[source]),
       ),
     );
-  }
-
-  if (differsFromModel(payload.predictions.pele, payload.predictions.harry)) {
-    if (!payload.deviation) {
-      errors.push("Me differs from Model, so a deviation is required.");
-    } else {
-      errors.push(...validateDeviation(payload.deviation));
-    }
-  }
-
-  return errors;
-}
-
-function validateDeviation(deviation: DeviationInput) {
-  const errors: string[] = [];
-
-  if (deviation.magnitude < 0 || deviation.magnitude > 1) {
-    errors.push("Deviation magnitude must be between 0 and 1.");
-  }
-
-  if (!deviation.note.trim()) {
-    errors.push("Deviation note is required.");
   }
 
   return errors;
@@ -127,9 +100,9 @@ export async function POST(request: NextRequest) {
         source,
         market: "result_90",
         snapshot: "lock",
-        p_home: prediction.p_home,
-        p_draw: prediction.p_draw,
-        p_away: prediction.p_away,
+        p_home: null,
+        p_draw: null,
+        p_away: null,
         pred_home_goals: prediction.pred_home_goals,
         pred_away_goals: prediction.pred_away_goals,
       };
@@ -145,40 +118,6 @@ export async function POST(request: NextRequest) {
 
     if (predictionResult.error) {
       throw new Error(predictionResult.error.message);
-    }
-
-    const deviationDelete = await supabase
-      .from("deviations")
-      .delete()
-      .eq("match_id", match.id)
-      .eq("market", "result_90");
-
-    if (deviationDelete.error) {
-      throw new Error(deviationDelete.error.message);
-    }
-
-    const shouldSaveDeviation = differsFromModel(
-      payload.predictions.pele,
-      payload.predictions.harry,
-    );
-
-    if (shouldSaveDeviation && payload.deviation) {
-      const deviationRow: Record<string, unknown> = {
-        match_id: match.id,
-        market: "result_90",
-        reason_code: payload.deviation.reason_code,
-        direction: sourceDirection(payload.predictions.harry.pick),
-        magnitude: payload.deviation.magnitude,
-        note: payload.deviation.note.trim(),
-      };
-
-      const thesisTag = trimToNull(payload.deviation.thesis_tag);
-      if (thesisTag) deviationRow.thesis_tag = thesisTag;
-
-      const deviationInsert = await supabase.from("deviations").insert(deviationRow);
-      if (deviationInsert.error) {
-        throw new Error(deviationInsert.error.message);
-      }
     }
 
     return NextResponse.json({
