@@ -1,0 +1,151 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: Beat the Model
+      - heading "Man v Model" [level=1] [ref=e7]
+    - generic [ref=e8]:
+      - button "Picks" [ref=e9]:
+        - img [ref=e10]
+        - text: Picks
+      - button "Scoreboard" [ref=e13]:
+        - img [ref=e14]
+        - text: Scoreboard
+      - button "Theses" [ref=e20]:
+        - img [ref=e21]
+        - text: Theses
+      - button "Refresh" [ref=e23]:
+        - img [ref=e24]
+        - text: Refresh
+  - generic [ref=e29]:
+    - complementary [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - img [ref=e33]
+          - text: Matches
+        - button "Add" [ref=e35]:
+          - img [ref=e36]
+          - text: Add
+      - paragraph [ref=e38]: No matches yet.
+    - generic [ref=e39]:
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - paragraph [ref=e42]: New match
+          - heading "Home v Away" [level=2] [ref=e43]
+        - button "Save" [ref=e44]:
+          - img [ref=e45]
+          - text: Save
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - text: Home team
+          - textbox "Home team" [ref=e52]
+        - generic [ref=e53]:
+          - text: Away team
+          - textbox "Away team" [ref=e55]
+        - generic [ref=e56]:
+          - text: Kickoff
+          - textbox "Kickoff" [ref=e58]: 2026-06-12T12:40
+        - generic [ref=e59]:
+          - text: Stage
+          - combobox "Stage" [ref=e61]:
+            - option "Group" [selected]
+            - option "Round of 32"
+            - option "Round of 16"
+            - option "Quarterfinal"
+            - option "Semifinal"
+            - option "Third place"
+            - option "Final"
+        - generic [ref=e62]:
+          - text: Group
+          - textbox "Group" [ref=e64]
+        - generic [ref=e65]:
+          - text: Venue
+          - textbox "Venue" [ref=e67]
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - generic [ref=e70]:
+            - generic [ref=e71]: Market
+            - generic [ref=e73]: Home
+          - generic [ref=e74]:
+            - button "Home" [ref=e75]
+            - button "Draw" [ref=e76]
+            - button "Away" [ref=e77]
+          - generic [ref=e78]:
+            - generic [ref=e79]:
+              - text: Home goals
+              - spinbutton "Home goals" [ref=e81]: "1"
+            - generic [ref=e82]:
+              - text: Away goals
+              - spinbutton "Away goals" [ref=e84]: "0"
+          - generic [ref=e85]:
+            - generic [ref=e86]:
+              - text: P home
+              - textbox "P home" [ref=e88]:
+                - /placeholder: "0.00"
+            - generic [ref=e89]:
+              - text: P draw
+              - textbox "P draw" [ref=e91]:
+                - /placeholder: "0.00"
+            - generic [ref=e92]:
+              - text: P away
+              - textbox "P away" [ref=e94]:
+                - /placeholder: "0.00"
+          - generic [ref=e96]: No Brier input
+        - generic [ref=e97]:
+          - generic [ref=e98]:
+            - generic [ref=e99]: Model
+            - generic [ref=e101]: Home
+          - generic [ref=e102]:
+            - button "Home" [ref=e103]
+            - button "Draw" [ref=e104]
+            - button "Away" [ref=e105]
+          - generic [ref=e106]:
+            - generic [ref=e107]:
+              - text: Home goals
+              - spinbutton "Home goals" [ref=e109]: "1"
+            - generic [ref=e110]:
+              - text: Away goals
+              - spinbutton "Away goals" [ref=e112]: "0"
+          - generic [ref=e113]:
+            - generic [ref=e114]:
+              - text: P home
+              - textbox "P home" [ref=e116]:
+                - /placeholder: "0.00"
+            - generic [ref=e117]:
+              - text: P draw
+              - textbox "P draw" [ref=e119]:
+                - /placeholder: "0.00"
+            - generic [ref=e120]:
+              - text: P away
+              - textbox "P away" [ref=e122]:
+                - /placeholder: "0.00"
+          - generic [ref=e124]: No Brier input
+        - generic [ref=e125]:
+          - generic [ref=e126]:
+            - generic [ref=e127]: Me
+            - generic [ref=e129]: Home
+          - generic [ref=e130]:
+            - button "Home" [ref=e131]
+            - button "Draw" [ref=e132]
+            - button "Away" [ref=e133]
+          - generic [ref=e134]:
+            - generic [ref=e135]:
+              - text: Home goals
+              - spinbutton "Home goals" [ref=e137]: "1"
+            - generic [ref=e138]:
+              - text: Away goals
+              - spinbutton "Away goals" [ref=e140]: "0"
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - text: P home
+              - textbox "P home" [ref=e144]:
+                - /placeholder: "0.00"
+            - generic [ref=e145]:
+              - text: P draw
+              - textbox "P draw" [ref=e147]:
+                - /placeholder: "0.00"
+            - generic [ref=e148]:
+              - text: P away
+              - textbox "P away" [ref=e150]:
+                - /placeholder: "0.00"
+          - generic [ref=e152]: No Brier input
+      - generic [ref=e153]: Home team is required.

@@ -1,0 +1,86 @@
+- generic [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: Beat the Model
+        - heading "Man v Model" [level=1] [ref=e7]
+      - generic [ref=e8]:
+        - button "Picks" [ref=e9]:
+          - img [ref=e10]
+          - text: Picks
+        - button "Scoreboard" [active] [ref=e13]:
+          - img [ref=e14]
+          - text: Scoreboard
+        - button "Theses" [ref=e20]:
+          - img [ref=e21]
+          - text: Theses
+        - button "Refresh" [ref=e23]:
+          - img [ref=e24]
+          - text: Refresh
+    - generic [ref=e163]:
+      - generic [ref=e164]:
+        - generic [ref=e165]:
+          - generic [ref=e166]:
+            - paragraph [ref=e167]: Running points
+            - heading "Scoreboard" [level=2] [ref=e168]
+          - generic [ref=e169]:
+            - textbox [ref=e170]: 2026-06-12
+            - button "Settle results" [ref=e171]:
+              - img [ref=e172]
+              - text: Settle results
+        - generic [ref=e177]:
+          - generic [ref=e178]:
+            - generic [ref=e179]: Market
+            - generic [ref=e181]: "0"
+            - generic [ref=e182]:
+              - generic [ref=e183]:
+                - generic [ref=e184]: "0"
+                - generic [ref=e185]: Scored
+              - generic [ref=e186]:
+                - generic [ref=e187]: "0"
+                - generic [ref=e188]: Correct
+              - generic [ref=e189]:
+                - generic [ref=e190]: "0"
+                - generic [ref=e191]: Exact
+          - generic [ref=e192]:
+            - generic [ref=e193]: Model
+            - generic [ref=e195]: "0"
+            - generic [ref=e196]:
+              - generic [ref=e197]:
+                - generic [ref=e198]: "0"
+                - generic [ref=e199]: Scored
+              - generic [ref=e200]:
+                - generic [ref=e201]: "0"
+                - generic [ref=e202]: Correct
+              - generic [ref=e203]:
+                - generic [ref=e204]: "0"
+                - generic [ref=e205]: Exact
+          - generic [ref=e206]:
+            - generic [ref=e207]: Me
+            - generic [ref=e209]: "0"
+            - generic [ref=e210]:
+              - generic [ref=e211]:
+                - generic [ref=e212]: "0"
+                - generic [ref=e213]: Scored
+              - generic [ref=e214]:
+                - generic [ref=e215]: "0"
+                - generic [ref=e216]: Correct
+              - generic [ref=e217]:
+                - generic [ref=e218]: "0"
+                - generic [ref=e219]: Exact
+      - generic [ref=e220]:
+        - heading "Match breakdown" [level=2] [ref=e222]
+        - table [ref=e224]:
+          - rowgroup [ref=e225]:
+            - row "Match Actual Market Model Me" [ref=e226]:
+              - columnheader "Match" [ref=e227]
+              - columnheader "Actual" [ref=e228]
+              - columnheader "Market" [ref=e229]
+              - columnheader "Model" [ref=e230]
+              - columnheader "Me" [ref=e231]
+          - rowgroup [ref=e232]:
+            - row "No settled matches." [ref=e233]:
+              - cell "No settled matches." [ref=e234]
+  - button "Open Next.js Dev Tools" [ref=e159] [cursor=pointer]:
+    - img [ref=e160]
+  - alert [ref=e235]
