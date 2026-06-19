@@ -4,6 +4,7 @@ import {
   AlertTriangle,
   CalendarDays,
   CheckCircle2,
+  ChevronDown,
   ClipboardList,
   DownloadCloud,
   Plus,
@@ -29,11 +30,17 @@ import {
   type Source,
   type Stage,
 } from "@/lib/types";
+import { formatMatchDate, formatMatchKickoff } from "@/lib/format-date";
+import {
+  defaultSidebarMatchId,
+  partitionMatchesForSidebar,
+} from "@/lib/match-display";
 import {
   goalsForPick,
   pickFromScoreline,
   validatePrediction,
 } from "@/lib/validation";
+import { WormChart } from "@/components/worm-chart";
 
 type Tab = "picks" | "scoreboard" | "champion";
 type BusyState = "idle" | "save" | "refresh" | "sync" | "champion";
@@ -274,19 +281,11 @@ function championFormFromData(data: DashboardData): ChampionFormState {
 }
 
 function formatKickoff(value: string) {
-  return new Intl.DateTimeFormat(undefined, {
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  }).format(new Date(value));
+  return formatMatchKickoff(value);
 }
 
 function formatDate(value: string) {
-  return new Intl.DateTimeFormat(undefined, {
-    month: "short",
-    day: "numeric",
-  }).format(new Date(value));
+  return formatMatchDate(value);
 }
 
 function pickLabel(pick: Pick | null | undefined) {
@@ -348,11 +347,11 @@ function isPlaceholderTeam(team: string) {
 export function MvmApp({ initialData, authControl }: AppShellProps) {
   const [data, setData] = useState(initialData);
   const [tab, setTab] = useState<Tab>("picks");
-  const [selectedMatchId, setSelectedMatchId] = useState<string | null>(
-    initialData.matches[0]?.id ?? null,
+  const [selectedMatchId, setSelectedMatchId] = useState<string | null>(() =>
+    defaultSidebarMatchId(initialData.matches),
   );
   const [form, setForm] = useState<MatchFormState>(() =>
-    formFromMatch(initialData, initialData.matches[0]?.id ?? null),
+    formFromMatch(initialData, defaultSidebarMatchId(initialData.matches)),
   );
   const [championForm, setChampionForm] = useState<ChampionFormState>(() =>
     championFormFromData(initialData),
@@ -415,7 +414,7 @@ export function MvmApp({ initialData, authControl }: AppShellProps) {
     const nextSelected =
       preferredMatchId && nextData.matches.some((match) => match.id === preferredMatchId)
         ? preferredMatchId
-        : (nextData.matches[0]?.id ?? null);
+        : defaultSidebarMatchId(nextData.matches);
 
     setSelectedMatchId(nextSelected);
     setForm(formFromMatch(nextData, nextSelected));
@@ -740,6 +739,53 @@ function TabButton({
   );
 }
 
+function MatchListItem({
+  match,
+  selected,
+  saved,
+  onSelect,
+}: {
+  match: MatchRow;
+  selected: boolean;
+  saved: boolean;
+  onSelect: () => void;
+}) {
+  const settled = match.result_90 !== null;
+  const matchStatus = settled ? resultText(match) : saved ? "Saved" : "Open";
+
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={`mb-2 w-full rounded-lg border p-3 text-left transition ${
+        selected
+          ? "border-emerald-500 bg-emerald-950/30"
+          : "border-neutral-800 bg-neutral-900/70 hover:border-neutral-600"
+      }`}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-xs text-neutral-400">
+          {formatDate(match.kickoff_utc)} · {STAGE_LABELS[match.stage]}
+          {match.group_name ? ` ${match.group_name}` : ""}
+        </span>
+        <span
+          className={`rounded px-1.5 py-0.5 text-xs ${
+            settled
+              ? "bg-emerald-950 text-emerald-200"
+              : saved
+                ? "bg-sky-950 text-sky-200"
+                : "bg-neutral-800 text-neutral-300"
+          }`}
+        >
+          {matchStatus}
+        </span>
+      </div>
+      <div className="mt-2 text-sm font-semibold text-neutral-100">{match.home_team}</div>
+      <div className="text-sm text-neutral-400">{match.away_team}</div>
+    </button>
+  );
+}
+
 function PicksScreen({
   data,
   selectedMatchId,
@@ -773,6 +819,25 @@ function PicksScreen({
     value: number,
   ) => void;
 }) {
+  const [earlierExpanded, setEarlierExpanded] = useState(false);
+  const savedMatchIds = useMemo(
+    () =>
+      new Set(
+        data.predictions
+          .filter(
+            (prediction) =>
+              prediction.pred_home_goals !== null &&
+              prediction.pred_away_goals !== null,
+          )
+          .map((prediction) => prediction.match_id),
+      ),
+    [data.predictions],
+  );
+  const { primary, earlier } = useMemo(
+    () => partitionMatchesForSidebar(data.matches),
+    [data.matches],
+  );
+
   return (
     <section className="grid gap-4 lg:grid-cols-[340px_minmax(0,1fr)]">
       <aside className={`${panelClass} overflow-hidden`}>
@@ -811,38 +876,43 @@ function PicksScreen({
           {data.matches.length === 0 ? (
             <p className="p-3 text-sm text-neutral-400">No matches yet.</p>
           ) : (
-            data.matches.map((match) => (
-              <button
-                key={match.id}
-                type="button"
-                onClick={() => onSelectMatch(match.id)}
-                className={`mb-2 w-full rounded-lg border p-3 text-left transition ${
-                  selectedMatchId === match.id
-                    ? "border-emerald-500 bg-emerald-950/30"
-                    : "border-neutral-800 bg-neutral-900/70 hover:border-neutral-600"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs text-neutral-400">
-                    {formatDate(match.kickoff_utc)} · {STAGE_LABELS[match.stage]}
-                    {match.group_name ? ` ${match.group_name}` : ""}
-                  </span>
-                  <span
-                    className={`rounded px-1.5 py-0.5 text-xs ${
-                      match.result_90
-                        ? "bg-emerald-950 text-emerald-200"
-                        : "bg-neutral-800 text-neutral-300"
-                    }`}
+            <>
+              {primary.map((match) => (
+                <MatchListItem
+                  key={match.id}
+                  match={match}
+                  selected={selectedMatchId === match.id}
+                  saved={savedMatchIds.has(match.id)}
+                  onSelect={() => onSelectMatch(match.id)}
+                />
+              ))}
+              {earlier.length > 0 ? (
+                <div className="mt-1 border-t border-neutral-800 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setEarlierExpanded((current) => !current)}
+                    className="mb-2 flex w-full items-center justify-between rounded-md px-2 py-2 text-left text-xs font-medium uppercase tracking-normal text-neutral-400 transition hover:bg-neutral-900/70 hover:text-neutral-200"
                   >
-                    {resultText(match)}
-                  </span>
+                    <span>Earlier matches ({earlier.length})</span>
+                    <ChevronDown
+                      size={14}
+                      className={`transition ${earlierExpanded ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                  {earlierExpanded
+                    ? earlier.map((match) => (
+                        <MatchListItem
+                          key={match.id}
+                          match={match}
+                          selected={selectedMatchId === match.id}
+                          saved={savedMatchIds.has(match.id)}
+                          onSelect={() => onSelectMatch(match.id)}
+                        />
+                      ))
+                    : null}
                 </div>
-                <div className="mt-2 text-sm font-semibold text-neutral-100">
-                  {match.home_team}
-                </div>
-                <div className="text-sm text-neutral-400">{match.away_team}</div>
-              </button>
-            ))
+              ) : null}
+            </>
           )}
         </div>
       </aside>
@@ -1187,6 +1257,8 @@ function ScoreboardScreen({
           </div>
         </div>
       </div>
+
+      <WormChart matchPoints={data.matchPoints} />
 
       <div className={`${panelClass} overflow-hidden`}>
         <div className="border-b border-neutral-800 p-4">

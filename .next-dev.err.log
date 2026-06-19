@@ -1,0 +1,220 @@
+⨯ ./src/components/mvm-app.tsx:864:14
+Expected '</', got ')'
+  [90m862 |[0m                 <div className=[32m"text-sm text-neutral-400"[0m>{match.away_team}</div>
+  [90m863 |[0m               </button>
+[31m[1m>[0m [90m864 |[0m             ))
+  [90m    |[0m              [31m[1m^[0m
+  [90m865 |[0m           )}
+  [90m866 |[0m         </div>
+  [90m867 |[0m       </aside>
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/mvm-app.tsx
+    ./src/app/page.tsx
+
+
+[browser] ./src/components/mvm-app.tsx:864:14
+Expected '</', got ')'
+  862 |                 <div className="text-sm text-neutral-400">{match.away_team}</div>
+  863 |               </button>
+> 864 |             ))
+      |              ^
+  865 |           )}
+  866 |         </div>
+  867 |       </aside>
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/mvm-app.tsx
+    ./src/app/page.tsx 
+[browser] ./src/components/mvm-app.tsx:864:14
+Expected '</', got ')'
+  862 |                 <div className="text-sm text-neutral-400">{match.away_team}</div>
+  863 |               </button>
+> 864 |             ))
+      |              ^
+  865 |           )}
+  866 |         </div>
+  867 |       </aside>
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/mvm-app.tsx
+    ./src/app/page.tsx 
+[browser] ./src/components/mvm-app.tsx:864:14
+Expected '</', got ')'
+  862 |                 <div className="text-sm text-neutral-400">{match.away_team}</div>
+  863 |               </button>
+> 864 |             ))
+      |              ^
+  865 |           )}
+  866 |         </div>
+  867 |       </aside>
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/mvm-app.tsx
+    ./src/app/page.tsx 
+[browser] ./src/components/mvm-app.tsx:864:14
+Expected '</', got ')'
+  862 |                 <div className="text-sm text-neutral-400">{match.away_team}</div>
+  863 |               </button>
+> 864 |             ))
+      |              ^
+  865 |           )}
+  866 |         </div>
+  867 |       </aside>
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/mvm-app.tsx
+    ./src/app/page.tsx 
+[browser] ./src/components/mvm-app.tsx:864:14
+Expected '</', got ')'
+  862 |                 <div className="text-sm text-neutral-400">{match.away_team}</div>
+  863 |               </button>
+> 864 |             ))
+      |              ^
+  865 |           )}
+  866 |         </div>
+  867 |       </aside>
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/mvm-app.tsx
+    ./src/app/page.tsx 
+[browser] ./src/components/mvm-app.tsx:864:14
+Expected '</', got ')'
+  862 |                 <div className="text-sm text-neutral-400">{match.away_team}</div>
+  863 |               </button>
+> 864 |             ))
+      |              ^
+  865 |           )}
+  866 |         </div>
+  867 |       </aside>
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/mvm-app.tsx
+    ./src/app/page.tsx 
+⨯ ./src/components/mvm-app.tsx:864:14
+Expected '</', got ')'
+  [90m862 |[0m                 <div className=[32m"text-sm text-neutral-400"[0m>{match.away_team}</div>
+  [90m863 |[0m               </button>
+[31m[1m>[0m [90m864 |[0m             ))
+  [90m    |[0m              [31m[1m^[0m
+  [90m865 |[0m           )}
+  [90m866 |[0m         </div>
+  [90m867 |[0m       </aside>
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/mvm-app.tsx
+    ./src/app/page.tsx
+
+
+⨯ ./src/components/mvm-app.tsx:864:14
+Expected '</', got ')'
+  [90m862 |[0m                 <div className=[32m"text-sm text-neutral-400"[0m>{match.away_team}</div>
+  [90m863 |[0m               </button>
+[31m[1m>[0m [90m864 |[0m             ))
+  [90m    |[0m              [31m[1m^[0m
+  [90m865 |[0m           )}
+  [90m866 |[0m         </div>
+  [90m867 |[0m       </aside>
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/mvm-app.tsx
+    ./src/app/page.tsx
+
+
+⨯ ./src/components/mvm-app.tsx:864:14
+Expected '</', got ')'
+  [90m862 |[0m                 <div className=[32m"text-sm text-neutral-400"[0m>{match.away_team}</div>
+  [90m863 |[0m               </button>
+[31m[1m>[0m [90m864 |[0m             ))
+  [90m    |[0m              [31m[1m^[0m
+  [90m865 |[0m           )}
+  [90m866 |[0m         </div>
+  [90m867 |[0m       </aside>
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/mvm-app.tsx
+    ./src/app/page.tsx
+
+
+[browser] Uncaught Error: ./src/components/mvm-app.tsx:864:14
+Expected '</', got ')'
+  862 |                 <div className="text-sm text-neutral-400">{match.away_team}</div>
+  863 |               </button>
+> 864 |             ))
+      |              ^
+  865 |           )}
+  866 |         </div>
+  867 |       </aside>
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/mvm-app.tsx
+    ./src/app/page.tsx
+
+
+    at <unknown> (Error: ./src/components/mvm-app.tsx:864:14)
+    at <unknown> (Error: (./src/components/mvm-app.tsx:864:14)
+[browser] ./src/components/mvm-app.tsx:864:14
+Expected '</', got ')'
+  862 |                 <div className="text-sm text-neutral-400">{match.away_team}</div>
+  863 |               </button>
+> 864 |             ))
+      |              ^
+  865 |           )}
+  866 |         </div>
+  867 |       </aside>
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/mvm-app.tsx
+    ./src/app/page.tsx 
+[browser] ./src/components/mvm-app.tsx:864:14
+Expected '</', got ')'
+  862 |                 <div className="text-sm text-neutral-400">{match.away_team}</div>
+  863 |               </button>
+> 864 |             ))
+      |              ^
+  865 |           )}
+  866 |         </div>
+  867 |       </aside>
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/mvm-app.tsx
+    ./src/app/page.tsx 

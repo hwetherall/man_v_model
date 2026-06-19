@@ -17,3 +17,27 @@ Creating turbopack project { dir: 'C:\\dev\\personal\\man_v_model', testMode: tr
  GET / 200 in 477ms (next.js: 5ms, application-code: 472ms)
  POST /api/matches 200 in 833ms (next.js: 234ms, application-code: 599ms)
  POST /api/matches 200 in 425ms (next.js: 3ms, application-code: 422ms)
+ POST /api/champion 200 in 1198ms (next.js: 251ms, application-code: 946ms)
+✓ Compiled in 102ms
+ GET / 200 in 364ms (next.js: 239ms, application-code: 125ms)
+✓ Compiled in 127ms
+ GET / 200 in 335ms (next.js: 217ms, application-code: 118ms)
+ POST /api/sync-matches 200 in 9.7s (next.js: 114ms, application-code: 9.5s)
+ GET / 200 in 346ms (next.js: 6ms, application-code: 340ms)
+ GET / 200 in 844ms (next.js: 9ms, application-code: 834ms)
+ POST /api/matches 200 in 593ms (next.js: 29ms, application-code: 564ms)
+ POST /api/matches 200 in 619ms (next.js: 4ms, application-code: 615ms)
+✓ Compiled in 102ms
+ GET / 200 in 446ms (next.js: 312ms, application-code: 134ms)
+ GET /api/matches 200 in 311ms (next.js: 93ms, application-code: 218ms)
+✓ Compiled in 148ms
+ GET / 500 in 3.0s (next.js: 2.7s, application-code: 293ms)
+ GET / 500 in 54ms (next.js: 19ms, application-code: 35ms)
+ GET / 500 in 65ms (next.js: 45ms, application-code: 21ms)
+✓ Compiled in 131ms
+ GET / 200 in 731ms (next.js: 249ms, application-code: 482ms)
+✓ Compiled in 92ms
+ GET / 200 in 394ms (next.js: 244ms, application-code: 150ms)
+ GET / 200 in 561ms (next.js: 8ms, application-code: 553ms)
+ GET /api/matches 200 in 1462ms (next.js: 356ms, application-code: 1106ms)
+ GET / 200 in 2.1s (next.js: 251ms, application-code: 1875ms)
