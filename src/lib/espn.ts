@@ -305,7 +305,10 @@ async function parseEvent(event: EspnEvent): Promise<ParsedEvent | null> {
     // the operator will see the mismatch and can correct manually.
   }
 
-  const hasResult = homeGoals !== null && awayGoals !== null;
+  const result =
+    homeGoals !== null && awayGoals !== null
+      ? resultFromGoals(homeGoals, awayGoals)
+      : null;
   const advanced =
     completed && home.advance
       ? "home"
@@ -324,7 +327,7 @@ async function parseEvent(event: EspnEvent): Promise<ParsedEvent | null> {
     completed,
     homeGoals,
     awayGoals,
-    result: hasResult ? resultFromGoals(homeGoals, awayGoals) : null,
+    result,
     advanced,
     wentToET: extraTime,
   };

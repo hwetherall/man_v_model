@@ -7,12 +7,14 @@ import {
   ChevronDown,
   ClipboardList,
   DownloadCloud,
+  GitBranch,
   Plus,
   RefreshCw,
   Save,
   Trophy,
+  XCircle,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   SOURCE_LABELS,
   SOURCES,
@@ -41,8 +43,9 @@ import {
   validatePrediction,
 } from "@/lib/validation";
 import { WormChart } from "@/components/worm-chart";
+import { DriftPanel } from "@/components/drift-panel";
 
-type Tab = "picks" | "scoreboard" | "champion";
+type Tab = "picks" | "bracket" | "scoreboard" | "champion";
 type BusyState = "idle" | "save" | "refresh" | "sync" | "champion";
 
 type EditablePrediction = {
@@ -116,6 +119,23 @@ type ScoreboardStanding = {
   exact: number;
   matchesScored: number;
 };
+
+type BracketRound = {
+  stage: Exclude<Stage, "group">;
+  label: string;
+  expectedMatches: number;
+};
+
+const BRACKET_ROUNDS: BracketRound[] = [
+  { stage: "r32", label: "Round of 32", expectedMatches: 16 },
+  { stage: "r16", label: "Round of 16", expectedMatches: 8 },
+  { stage: "qf", label: "Quarterfinals", expectedMatches: 4 },
+  { stage: "sf", label: "Semifinals", expectedMatches: 2 },
+  { stage: "third", label: "Third place", expectedMatches: 1 },
+  { stage: "final", label: "Final", expectedMatches: 1 },
+];
+
+const LIVE_MATCH_WINDOW_MS = 3 * 60 * 60 * 1000;
 
 function nowLocalInput() {
   const date = new Date();
@@ -350,6 +370,80 @@ function isPlaceholderTeam(team: string) {
   return /\b(group|winner|loser|place|round|quarterfinal|semifinal)\b/i.test(team);
 }
 
+function sortMatchesByKickoff(matches: MatchRow[]) {
+  return [...matches].sort(
+    (left, right) =>
+      new Date(left.kickoff_utc).getTime() - new Date(right.kickoff_utc).getTime(),
+  );
+}
+
+function knockoutMatches(matches: MatchRow[]) {
+  return sortMatchesByKickoff(matches.filter((match) => match.stage !== "group"));
+}
+
+function advancingSide(match: MatchRow) {
+  if (match.advanced) return match.advanced;
+  if (match.result_90 === "home") return "home";
+  if (match.result_90 === "away") return "away";
+  return null;
+}
+
+function advancingTeam(match: MatchRow) {
+  const side = advancingSide(match);
+  if (side === "home") return match.home_team;
+  if (side === "away") return match.away_team;
+  return null;
+}
+
+function isLiveWindow(match: MatchRow, nowMs: number) {
+  const kickoffMs = new Date(match.kickoff_utc).getTime();
+  return (
+    match.result_90 === null &&
+    Number.isFinite(kickoffMs) &&
+    nowMs >= kickoffMs &&
+    nowMs < kickoffMs + LIVE_MATCH_WINDOW_MS
+  );
+}
+
+function bracketStatus(match: MatchRow, nowMs: number) {
+  if (match.result_90 !== null) return "Final";
+
+  const kickoffMs = new Date(match.kickoff_utc).getTime();
+  if (!Number.isFinite(kickoffMs)) return "Scheduled";
+  if (nowMs >= kickoffMs && nowMs < kickoffMs + LIVE_MATCH_WINDOW_MS) return "Live";
+  if (nowMs > kickoffMs) return "Pending";
+  return formatKickoff(match.kickoff_utc);
+}
+
+function bracketFeedLabel(stage: Stage, index: number) {
+  if (stage === "r32") return `Winner to R16 ${Math.floor(index / 2) + 1}`;
+  if (stage === "r16") return `Winner to QF ${Math.floor(index / 2) + 1}`;
+  if (stage === "qf") return `Winner to SF ${Math.floor(index / 2) + 1}`;
+  if (stage === "sf") return index === 0 ? "Winner to Final" : "Winner to Final";
+  if (stage === "third") return "Third place";
+  if (stage === "final") return "Champion";
+  return "";
+}
+
+function nextKnockoutMatch(matches: MatchRow[], nowMs: number) {
+  const upcoming = knockoutMatches(matches).filter((match) => {
+    const kickoffMs = new Date(match.kickoff_utc).getTime();
+    return match.result_90 === null && Number.isFinite(kickoffMs) && kickoffMs >= nowMs;
+  });
+  return upcoming[0] ?? null;
+}
+
+function activeBracketRound(matches: MatchRow[]) {
+  for (const round of BRACKET_ROUNDS) {
+    const roundMatches = matches.filter((match) => match.stage === round.stage);
+    if (roundMatches.some((match) => match.result_90 === null)) return round;
+  }
+
+  return [...BRACKET_ROUNDS].reverse().find((round) =>
+    matches.some((match) => match.stage === round.stage),
+  );
+}
+
 export function MvmApp({ initialData, authControl }: AppShellProps) {
   const [data, setData] = useState(initialData);
   const [tab, setTab] = useState<Tab>("picks");
@@ -402,6 +496,17 @@ export function MvmApp({ initialData, authControl }: AppShellProps) {
       ).sort((a, b) => a.localeCompare(b)),
     [data.matches],
   );
+  const eliminatedTeams = useMemo(() => {
+    const set = new Set<string>();
+    for (const match of data.matches) {
+      if (match.stage === "group" || !match.advanced) continue;
+      const loser = match.advanced === "home" ? match.away_team : match.home_team;
+      if (!isPlaceholderTeam(loser)) {
+        set.add(loser.toLowerCase());
+      }
+    }
+    return set;
+  }, [data.matches]);
   const payload = useMemo(() => formToPayload(form), [form]);
   const formErrors = useMemo(() => validatePayload(payload), [payload]);
 
@@ -627,6 +732,12 @@ export function MvmApp({ initialData, authControl }: AppShellProps) {
             onClick={() => setTab("picks")}
           />
           <TabButton
+            active={tab === "bracket"}
+            icon={<GitBranch size={16} />}
+            label="Bracket"
+            onClick={() => setTab("bracket")}
+          />
+          <TabButton
             active={tab === "scoreboard"}
             icon={<Trophy size={16} />}
             label="Scoreboard"
@@ -693,6 +804,10 @@ export function MvmApp({ initialData, authControl }: AppShellProps) {
         />
       ) : null}
 
+      {tab === "bracket" ? (
+        <BracketScreen data={data} busy={busy} onSync={syncMatches} />
+      ) : null}
+
       {tab === "scoreboard" ? (
         <ScoreboardScreen
           data={data}
@@ -708,6 +823,7 @@ export function MvmApp({ initialData, authControl }: AppShellProps) {
         <ChampionScreen
           form={championForm}
           teamOptions={teamOptions}
+          eliminatedTeams={eliminatedTeams}
           championBonus={championBonus}
           busy={busy}
           onSave={saveChampion}
@@ -1124,6 +1240,257 @@ function PredictionCard({
   );
 }
 
+function BracketScreen({
+  data,
+  busy,
+  onSync,
+}: {
+  data: DashboardData;
+  busy: BusyState;
+  onSync: () => void;
+}) {
+  const [clientNowMs, setClientNowMs] = useState<number | null>(null);
+  const nowMs = clientNowMs ?? 0;
+  const matches = knockoutMatches(data.matches);
+  const settledCount = matches.filter((match) => match.result_90 !== null).length;
+  const liveCount = matches.filter((match) => isLiveWindow(match, nowMs)).length;
+  const nextMatch = nextKnockoutMatch(data.matches, nowMs);
+  const activeRound = activeBracketRound(matches);
+  const finalMatch = matches.find((match) => match.stage === "final");
+  const champion = finalMatch ? advancingTeam(finalMatch) : null;
+
+  useEffect(() => {
+    const updateNow = () => setClientNowMs(Date.now());
+    updateNow();
+
+    const interval = window.setInterval(updateNow, 30000);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  return (
+    <section className="grid gap-4">
+      <div className={`${panelClass} p-4`}>
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="text-sm text-neutral-400">Knockout phase</p>
+            <h2 className="text-xl font-semibold">Tournament bracket</h2>
+          </div>
+          <button
+            type="button"
+            onClick={onSync}
+            disabled={busy !== "idle"}
+            className="inline-flex h-9 items-center gap-2 rounded-md bg-emerald-500 px-3 text-sm font-semibold text-neutral-950 transition hover:bg-emerald-400 disabled:opacity-60"
+          >
+            <DownloadCloud size={16} />
+            Sync ESPN
+          </button>
+        </div>
+
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <BracketMetric
+            label="Active round"
+            value={activeRound?.label ?? "No knockout matches"}
+          />
+          <BracketMetric
+            label="Live"
+            value={liveCount > 0 ? `${liveCount} in window` : "None"}
+          />
+          <BracketMetric
+            label="Settled"
+            value={`${settledCount} / ${matches.length || 0}`}
+          />
+          <BracketMetric
+            label={champion ? "Champion" : "Next match"}
+            value={
+              champion ??
+              (nextMatch
+                ? `${nextMatch.home_team} v ${nextMatch.away_team}`
+                : matches.length > 0
+                  ? "Awaiting schedule"
+                  : "Awaiting sync")
+            }
+          />
+        </div>
+      </div>
+
+      <div className={`${panelClass} overflow-hidden`}>
+        {matches.length === 0 ? (
+          <div className="p-5 text-sm text-neutral-400">
+            No knockout matches have been synced yet.
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <div className="flex min-w-[1120px] gap-3 p-4">
+              {BRACKET_ROUNDS.map((round) => {
+                const roundMatches = sortMatchesByKickoff(
+                  matches.filter((match) => match.stage === round.stage),
+                );
+
+                return (
+                  <BracketRoundColumn
+                    key={round.stage}
+                    round={round}
+                    matches={roundMatches}
+                    nowMs={nowMs}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function BracketMetric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-neutral-800 bg-neutral-950/60 px-3 py-2">
+      <div className="text-xs font-medium uppercase tracking-normal text-neutral-500">
+        {label}
+      </div>
+      <div className="mt-1 truncate text-sm font-semibold text-neutral-100">{value}</div>
+    </div>
+  );
+}
+
+function BracketRoundColumn({
+  round,
+  matches,
+  nowMs,
+}: {
+  round: BracketRound;
+  matches: MatchRow[];
+  nowMs: number;
+}) {
+  return (
+    <div className="min-w-[250px] flex-1">
+      <div className="mb-3 flex items-center justify-between gap-2 border-b border-neutral-800 pb-2">
+        <div>
+          <h3 className="text-sm font-semibold text-neutral-100">{round.label}</h3>
+          <p className="text-xs text-neutral-500">
+            {matches.length} / {round.expectedMatches}
+          </p>
+        </div>
+        <span className="rounded-md border border-neutral-800 bg-neutral-900 px-2 py-1 font-mono text-xs text-neutral-400">
+          {matches.filter((match) => match.result_90 !== null).length}
+        </span>
+      </div>
+
+      <div className="grid gap-3">
+        {matches.length === 0 ? (
+          <div className="min-h-28 rounded-lg border border-dashed border-neutral-800 bg-neutral-950/40 p-3 text-sm text-neutral-500">
+            Awaiting fixtures
+          </div>
+        ) : (
+          matches.map((match, index) => (
+            <BracketMatchCard
+              key={match.id}
+              match={match}
+              index={index}
+              nowMs={nowMs}
+            />
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
+function BracketMatchCard({
+  match,
+  index,
+  nowMs,
+}: {
+  match: MatchRow;
+  index: number;
+  nowMs: number;
+}) {
+  const winner = advancingSide(match);
+  const live = isLiveWindow(match, nowMs);
+  const final = match.result_90 !== null;
+  const score =
+    match.home_goals !== null && match.away_goals !== null ? resultText(match) : null;
+  const feedLabel = bracketFeedLabel(match.stage, index);
+
+  return (
+    <div
+      className={`relative rounded-lg border bg-neutral-950/70 p-3 ${
+        live
+          ? "border-emerald-500/80 ring-1 ring-emerald-400/30"
+          : final
+            ? "border-neutral-700"
+            : "border-neutral-800"
+      }`}
+    >
+      <div className="absolute left-full top-1/2 hidden h-px w-3 bg-neutral-700 xl:block" />
+      <div className="flex items-center justify-between gap-2 text-xs">
+        <span className="text-neutral-500">
+          {formatDate(match.kickoff_utc)} · Match {index + 1}
+        </span>
+        <span
+          className={`rounded px-1.5 py-0.5 ${
+            live
+              ? "bg-emerald-500 text-neutral-950"
+              : final
+                ? "bg-neutral-800 text-neutral-200"
+                : "bg-neutral-900 text-neutral-400"
+          }`}
+        >
+          {bracketStatus(match, nowMs)}
+        </span>
+      </div>
+
+      <div className="mt-3 grid gap-1.5">
+        <BracketTeamRow
+          team={match.home_team}
+          score={match.home_goals}
+          winner={winner === "home"}
+          dimmed={final && winner !== null && winner !== "home"}
+        />
+        <BracketTeamRow
+          team={match.away_team}
+          score={match.away_goals}
+          winner={winner === "away"}
+          dimmed={final && winner !== null && winner !== "away"}
+        />
+      </div>
+
+      <div className="mt-3 flex items-center justify-between gap-3 text-xs">
+        <span className="truncate text-neutral-500">{feedLabel}</span>
+        <span className="shrink-0 font-mono text-neutral-300">{score ?? "TBD"}</span>
+      </div>
+    </div>
+  );
+}
+
+function BracketTeamRow({
+  team,
+  score,
+  winner,
+  dimmed,
+}: {
+  team: string;
+  score: number | null;
+  winner: boolean;
+  dimmed: boolean;
+}) {
+  return (
+    <div
+      className={`grid grid-cols-[minmax(0,1fr)_32px] items-center gap-2 rounded-md px-2 py-1.5 ${
+        winner
+          ? "bg-emerald-950/50 text-emerald-100"
+          : dimmed
+            ? "bg-neutral-950 text-neutral-500"
+            : "bg-neutral-900/80 text-neutral-200"
+      }`}
+    >
+      <span className="truncate text-sm font-medium">{team}</span>
+      <span className="text-right font-mono text-sm">{score ?? "-"}</span>
+    </div>
+  );
+}
+
 function ScoreboardScreen({
   data,
   predictionByKey,
@@ -1263,6 +1630,8 @@ function ScoreboardScreen({
           </div>
         </div>
       </div>
+
+      <DriftPanel matches={data.matches} pointsLeaderboard={data.pointsLeaderboard} />
 
       <WormChart matchPoints={data.matchPoints} />
 
@@ -1444,6 +1813,7 @@ function podiumHeight(rank: number) {
 function ChampionScreen({
   form,
   teamOptions,
+  eliminatedTeams,
   championBonus,
   busy,
   onSave,
@@ -1451,6 +1821,7 @@ function ChampionScreen({
 }: {
   form: ChampionFormState;
   teamOptions: string[];
+  eliminatedTeams: Set<string>;
   championBonus: Record<Source, number>;
   busy: BusyState;
   onSave: () => void;
@@ -1466,6 +1837,10 @@ function ChampionScreen({
         ),
       },
     }));
+  }
+
+  function isEliminated(teamName: string) {
+    return teamName.trim().length > 0 && eliminatedTeams.has(teamName.trim().toLowerCase());
   }
 
   return (
@@ -1522,6 +1897,13 @@ function ChampionScreen({
         </div>
       </div>
 
+      {eliminatedTeams.size > 0 && (
+        <div className="flex items-center gap-2 rounded-md border border-red-900/50 bg-red-950/20 px-3 py-2 text-xs text-red-400">
+          <XCircle size={13} className="shrink-0" />
+          Eliminated teams are highlighted in red.
+        </div>
+      )}
+
       <div className="grid gap-3 xl:grid-cols-3">
         {SOURCES.map((source) => (
           <div key={source} className={`rounded-lg border p-3 ${sourceAccent[source]}`}>
@@ -1530,22 +1912,34 @@ function ChampionScreen({
               {SOURCE_LABELS[source]}
             </div>
             <div className="mt-3 space-y-2">
-              {Array.from({ length: 10 }, (_, index) => (
-                <label key={index} className="grid grid-cols-[42px_minmax(0,1fr)_42px] items-center gap-2">
-                  <span className="font-mono text-xs text-neutral-400">
-                    #{index + 1}
-                  </span>
-                  <input
-                    className={inputClass}
-                    list="champion-team-options"
-                    value={form.picks[source][index] ?? ""}
-                    onChange={(event) => updatePick(source, index, event.target.value)}
-                  />
-                  <span className="text-right font-mono text-xs text-neutral-400">
-                    {championPointsForRank(index + 1)}
-                  </span>
-                </label>
-              ))}
+              {Array.from({ length: 10 }, (_, index) => {
+                const teamName = form.picks[source][index] ?? "";
+                const eliminated = isEliminated(teamName);
+                return (
+                  <label
+                    key={index}
+                    className="grid grid-cols-[42px_minmax(0,1fr)_20px_42px] items-center gap-2"
+                  >
+                    <span className={`font-mono text-xs ${eliminated ? "text-red-400" : "text-neutral-400"}`}>
+                      #{index + 1}
+                    </span>
+                    <input
+                      className={`${inputClass} ${eliminated ? "border-red-500/60 bg-red-950/20 text-red-300" : ""}`}
+                      list="champion-team-options"
+                      value={teamName}
+                      onChange={(event) => updatePick(source, index, event.target.value)}
+                    />
+                    <span className="flex items-center justify-center">
+                      {eliminated && (
+                        <XCircle size={14} className="text-red-500" aria-label="Eliminated" />
+                      )}
+                    </span>
+                    <span className={`text-right font-mono text-xs ${eliminated ? "text-red-500/60 line-through" : "text-neutral-400"}`}>
+                      {championPointsForRank(index + 1)}
+                    </span>
+                  </label>
+                );
+              })}
             </div>
           </div>
         ))}
