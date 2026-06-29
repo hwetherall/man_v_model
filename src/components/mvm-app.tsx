@@ -295,9 +295,15 @@ function pickLabel(pick: Pick | null | undefined) {
   return "Unset";
 }
 
+function wentToExtraTime(match: MatchRow) {
+  // In knockout stages a 90-min draw always leads to ET/pens.
+  return match.stage !== "group" && match.result_90 === "draw";
+}
+
 function resultText(match: MatchRow) {
   if (match.home_goals === null || match.away_goals === null) return "Open";
-  return `${match.home_goals}-${match.away_goals}`;
+  const score = `${match.home_goals}-${match.away_goals}`;
+  return wentToExtraTime(match) ? `${score} (aet)` : score;
 }
 
 function predictionPick(prediction: PredictionRow | undefined) {

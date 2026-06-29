@@ -46,6 +46,21 @@ type EspnEvent = {
   }>;
 };
 
+type EspnLinescore = {
+  displayValue?: string;
+};
+
+type EspnSummary = {
+  header?: {
+    competitions?: Array<{
+      competitors?: Array<{
+        homeAway: "home" | "away";
+        linescores?: EspnLinescore[];
+      }>;
+    }>;
+  };
+};
+
 type EspnScoreboard = {
   events?: EspnEvent[];
 };
@@ -63,6 +78,8 @@ type ParsedEvent = {
   awayGoals: number | null;
   result: Pick | null;
   advanced: "home" | "away" | null;
+  /** True when the match went beyond 90 minutes (ET or penalties). */
+  wentToET: boolean;
 };
 
 export type SettleResult = {
@@ -145,14 +162,78 @@ function matchDate(value: string) {
   return new Date(value).toISOString().slice(0, 10);
 }
 
+// ESPN status names that indicate a match is fully finished.
+// STATUS_FINAL_PEN  = ended via penalty shootout (score is post-ET, not 90-min)
+// STATUS_FINAL_AET  = ended in extra time (score is post-ET, not 90-min)
+const COMPLETED_STATUSES = new Set([
+  "STATUS_FULL_TIME",
+  "STATUS_FINAL",
+  "STATUS_FINAL_PEN",
+  "STATUS_FINAL_AET",
+  "STATUS_FINAL_ET",
+]);
+
+// Statuses where competitor.score reflects extra-time goals, not just 90-min.
+// For these we must fetch the summary endpoint to get regulation-only scores.
+const EXTRA_TIME_STATUSES = new Set([
+  "STATUS_FINAL_PEN",
+  "STATUS_FINAL_AET",
+  "STATUS_FINAL_ET",
+]);
+
 function isCompleted(event: EspnEvent) {
   const status = event.competitions?.[0]?.status?.type ?? event.status?.type;
   return Boolean(
     status?.completed ||
       status?.state === "post" ||
-      status?.name === "STATUS_FINAL" ||
-      status?.name === "STATUS_FULL_TIME",
+      (status?.name && COMPLETED_STATUSES.has(status.name)),
   );
+}
+
+function wentToExtraTime(event: EspnEvent): boolean {
+  const status = event.competitions?.[0]?.status?.type ?? event.status?.type;
+  return Boolean(status?.name && EXTRA_TIME_STATUSES.has(status.name));
+}
+
+const SUMMARY_BASE =
+  "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary";
+
+/**
+ * Fetches the ESPN event summary and extracts the regulation (90-min) score
+ * by summing periods 1 and 2 from linescores.
+ * Returns null if the data is unavailable or incomplete.
+ */
+async function fetchRegulationScore(
+  eventId: string,
+): Promise<{ homeGoals: number; awayGoals: number } | null> {
+  try {
+    const url = new URL(SUMMARY_BASE);
+    url.searchParams.set("event", eventId);
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) return null;
+
+    const data = (await response.json()) as EspnSummary;
+    const comp = data?.header?.competitions?.[0];
+    if (!comp) return null;
+
+    const home = comp.competitors?.find((c) => c.homeAway === "home");
+    const away = comp.competitors?.find((c) => c.homeAway === "away");
+    const homeLS = home?.linescores ?? [];
+    const awayLS = away?.linescores ?? [];
+
+    // Need at least 2 periods (first half + second half).
+    if (homeLS.length < 2 || awayLS.length < 2) return null;
+
+    const parsePeriod = (ls: EspnLinescore) =>
+      parseInt(ls.displayValue ?? "0", 10) || 0;
+
+    return {
+      homeGoals: parsePeriod(homeLS[0]) + parsePeriod(homeLS[1]),
+      awayGoals: parsePeriod(awayLS[0]) + parsePeriod(awayLS[1]),
+    };
+  } catch {
+    return null;
+  }
 }
 
 function teamName(competitor: EspnCompetitor) {
@@ -194,7 +275,7 @@ function venueName(event: EspnEvent) {
   return city ? `${venue.fullName}, ${city}` : venue.fullName;
 }
 
-function parseEvent(event: EspnEvent): ParsedEvent | null {
+async function parseEvent(event: EspnEvent): Promise<ParsedEvent | null> {
   const competition = event.competitions?.[0];
   const home = competition?.competitors?.find(
     (competitor) => competitor.homeAway === "home",
@@ -206,8 +287,24 @@ function parseEvent(event: EspnEvent): ParsedEvent | null {
   if (!competition || !home || !away) return null;
 
   const completed = isCompleted(event);
-  const homeGoals = completed ? parseScore(home.score) : null;
-  const awayGoals = completed ? parseScore(away.score) : null;
+  const extraTime = completed && wentToExtraTime(event);
+
+  // For ET/pen matches the scoreboard score includes extra-time goals.
+  // Fetch the summary endpoint to get period-by-period linescores and sum
+  // periods 1+2 to isolate the 90-minute result.
+  let homeGoals = completed ? parseScore(home.score) : null;
+  let awayGoals = completed ? parseScore(away.score) : null;
+
+  if (extraTime) {
+    const reg = await fetchRegulationScore(event.id);
+    if (reg) {
+      homeGoals = reg.homeGoals;
+      awayGoals = reg.awayGoals;
+    }
+    // If the summary fetch fails we keep the post-ET score as a fallback;
+    // the operator will see the mismatch and can correct manually.
+  }
+
   const hasResult = homeGoals !== null && awayGoals !== null;
   const advanced =
     completed && home.advance
@@ -229,6 +326,7 @@ function parseEvent(event: EspnEvent): ParsedEvent | null {
     awayGoals,
     result: hasResult ? resultFromGoals(homeGoals, awayGoals) : null,
     advanced,
+    wentToET: extraTime,
   };
 }
 
@@ -290,9 +388,9 @@ export async function syncWorldCupMatchesFromEspn(
 ): Promise<SyncMatchesResult> {
   const supabase = getSupabaseServerClient();
   const scoreboard = await fetchScoreboard(dates);
-  const parsedEvents = (scoreboard.events ?? [])
-    .map(parseEvent)
-    .filter((event): event is ParsedEvent => event !== null);
+  const parsedEvents = (
+    await Promise.all((scoreboard.events ?? []).map(parseEvent))
+  ).filter((event): event is ParsedEvent => event !== null);
 
   const matchResult = await supabase
     .from("matches")
@@ -365,9 +463,9 @@ export async function syncWorldCupMatchesFromEspn(
 export async function settleFromEspn(date: string | null): Promise<SettleResult> {
   const supabase = getSupabaseServerClient();
   const scoreboard = await fetchScoreboard(espnDateParam(date));
-  const parsedEvents = (scoreboard.events ?? [])
-    .map(parseEvent)
-    .filter((event): event is ParsedEvent => event !== null && event.result !== null);
+  const parsedEvents = (
+    await Promise.all((scoreboard.events ?? []).map(parseEvent))
+  ).filter((event): event is ParsedEvent => event !== null && event.result !== null);
 
   const matchResult = await supabase
     .from("matches")
