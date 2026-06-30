@@ -44,6 +44,7 @@ import {
 } from "@/lib/validation";
 import { WormChart } from "@/components/worm-chart";
 import { DriftPanel } from "@/components/drift-panel";
+import { GoblinSays } from "@/components/goblin-says";
 
 type Tab = "picks" | "bracket" | "scoreboard" | "champion";
 type BusyState = "idle" | "save" | "refresh" | "sync" | "champion";
@@ -1632,6 +1633,8 @@ function ScoreboardScreen({
       </div>
 
       <DriftPanel matches={data.matches} pointsLeaderboard={data.pointsLeaderboard} />
+
+      <GoblinSays matches={data.matches} pointsLeaderboard={data.pointsLeaderboard} />
 
       <WormChart matchPoints={data.matchPoints} />
 
