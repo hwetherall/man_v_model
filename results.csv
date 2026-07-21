@@ -1,0 +1,105 @@
+id,external_ref,stage,group_name,home_team,away_team,kickoff_utc,venue,result_90,home_goals,away_goals,advanced
+00000000-0000-0000-0000-000000000001,760415,group,A,Mexico,South Africa,2026-06-11T19:00:00+00:00,"Estadio Banorte, Mexico City",home,2,0,home
+00000000-0000-0000-0000-000000000002,760414,group,A,Korea Republic,Czechia,2026-06-12T02:00:00+00:00,"Estadio Akron, Guadalajara",home,2,1,home
+c5f77bc7-cddc-4580-8b0e-d47216afe1e1,760416,group,B,Canada,Bosnia-Herzegovina,2026-06-12T19:00:00+00:00,"BMO Field, Toronto",draw,1,1,
+d703434b-4860-4883-b27a-3a7b9f8820f0,760417,group,D,United States,Paraguay,2026-06-13T01:00:00+00:00,"SoFi Stadium, Inglewood, California",home,4,1,home
+55d80618-d929-41da-96fa-939b0ad65a84,760420,group,B,Qatar,Switzerland,2026-06-13T19:00:00+00:00,"Levi's Stadium, Santa Clara, California",draw,1,1,
+35768fe1-4b91-4aca-9055-d62e78140add,760419,group,C,Brazil,Morocco,2026-06-13T22:00:00+00:00,"MetLife Stadium, East Rutherford, New Jersey",draw,1,1,
+c4b5ce47-801d-4c07-9e5f-3620e13e2bd5,760418,group,C,Haiti,Scotland,2026-06-14T01:00:00+00:00,"Gillette Stadium, Foxborough, Massachusetts",away,0,1,away
+b282dcd1-81d9-4651-876c-6b26db2ef3cc,760421,group,D,Australia,Türkiye,2026-06-14T04:00:00+00:00,"BC Place, Vancouver",home,2,0,home
+3861d750-7871-4704-9b73-bf78e072b864,760422,group,E,Germany,Curaçao,2026-06-14T17:00:00+00:00,"NRG Stadium, Houston, Texas",home,7,1,home
+e505ece4-811e-4ee0-a1ac-619ebc2dc660,760425,group,F,Netherlands,Japan,2026-06-14T20:00:00+00:00,"AT&T Stadium, Arlington, Texas",draw,2,2,
+6584aceb-257c-42ab-a5b6-8c9044bdef08,760423,group,E,Ivory Coast,Ecuador,2026-06-14T23:00:00+00:00,"Lincoln Financial Field, Philadelphia, Pennsylvania",home,1,0,home
+53f34fba-a008-4aaa-9652-1cfb7d15635e,760424,group,F,Sweden,Tunisia,2026-06-15T02:00:00+00:00,"Estadio BBVA, Guadalupe",home,5,1,home
+02a8b78f-99c7-4259-b660-7ae46ffb840a,760428,group,H,Spain,Cape Verde,2026-06-15T16:00:00+00:00,"Mercedes-Benz Stadium, Atlanta, Georgia",draw,0,0,
+fd54839a-5141-48cc-a588-36f5b8c0473e,760426,group,G,Belgium,Egypt,2026-06-15T19:00:00+00:00,"Lumen Field, Seattle, Washington",draw,1,1,
+5db40daf-b184-48a8-b857-2971d079eba2,760429,group,H,Saudi Arabia,Uruguay,2026-06-15T22:00:00+00:00,"Hard Rock Stadium, Miami Gardens, Florida",draw,1,1,
+8cd7ea9d-57ee-4bfb-94e5-3e708cb5f2a7,760427,group,G,Iran,New Zealand,2026-06-16T01:00:00+00:00,"SoFi Stadium, Inglewood, California",draw,2,2,
+81efb357-cd79-4031-8c7d-aeaf3668799a,760432,group,I,France,Senegal,2026-06-16T19:00:00+00:00,"MetLife Stadium, East Rutherford, New Jersey",home,3,1,home
+ac71a0df-2120-4302-a292-6a2a5d22a8f5,760430,group,I,Iraq,Norway,2026-06-16T22:00:00+00:00,"Gillette Stadium, Foxborough, Massachusetts",away,1,4,away
+caef88e4-c9b3-4f69-b367-3260d49d8ac6,760433,group,J,Argentina,Algeria,2026-06-17T01:00:00+00:00,"GEHA Field at Arrowhead Stadium, Kansas City, Missouri",home,3,0,home
+202c56ab-5bb0-48c3-8f39-130bd213db12,760431,group,J,Austria,Jordan,2026-06-17T04:00:00+00:00,"Levi's Stadium, Santa Clara, California",home,3,1,home
+f956c314-205d-498f-885f-afb78fa74c28,760435,group,K,Portugal,Congo DR,2026-06-17T17:00:00+00:00,"NRG Stadium, Houston, Texas",draw,1,1,
+d5e636b7-a3be-4aef-bb65-c7c78204c52e,760437,group,L,England,Croatia,2026-06-17T20:00:00+00:00,"AT&T Stadium, Arlington, Texas",home,4,2,home
+d527495b-4d34-4676-bb4c-9f5588a7a8cf,760434,group,L,Ghana,Panama,2026-06-17T23:00:00+00:00,"BMO Field, Toronto",home,1,0,home
+4509138f-5fd8-479b-b160-8c5268def302,760436,group,K,Uzbekistan,Colombia,2026-06-18T02:00:00+00:00,"Estadio Banorte, Mexico City",away,1,3,away
+3b4eeea7-0980-4d27-8c84-b81ed5d4980e,760438,group,A,Czechia,South Africa,2026-06-18T16:00:00+00:00,"Mercedes-Benz Stadium, Atlanta, Georgia",draw,1,1,
+d30b2fdc-d70a-48c9-a1f8-c6ce9d163e54,760439,group,B,Switzerland,Bosnia-Herzegovina,2026-06-18T19:00:00+00:00,"SoFi Stadium, Inglewood, California",home,4,1,home
+a123dd2b-bc32-4a58-85c9-e6a371e36b57,760440,group,B,Canada,Qatar,2026-06-18T22:00:00+00:00,"BC Place, Vancouver",home,6,0,home
+52f5dcae-059d-455a-ab0f-52ce86ef5f69,760441,group,A,Mexico,Korea Republic,2026-06-19T01:00:00+00:00,"Estadio Akron, Guadalajara",home,1,0,home
+1c9cd77c-3578-4871-bbdd-5390985a706e,760442,group,D,United States,Australia,2026-06-19T19:00:00+00:00,"Lumen Field, Seattle, Washington",home,2,0,home
+e3092a10-0677-4c0f-87a0-135eba092b24,760445,group,C,Scotland,Morocco,2026-06-19T22:00:00+00:00,"Gillette Stadium, Foxborough, Massachusetts",away,0,1,away
+511d7870-7a67-4b97-a45f-31397d9254d0,760444,group,C,Brazil,Haiti,2026-06-20T00:30:00+00:00,"Lincoln Financial Field, Philadelphia, Pennsylvania",home,3,0,home
+12085414-62b4-4f80-99d6-a511d4afdedd,760443,group,D,Türkiye,Paraguay,2026-06-20T03:00:00+00:00,"Levi's Stadium, Santa Clara, California",away,0,1,away
+69f92824-5b3f-4e39-87ff-ab0971e0aac1,760447,group,F,Netherlands,Sweden,2026-06-20T17:00:00+00:00,"NRG Stadium, Houston, Texas",home,5,1,home
+13610379-4f75-4936-9625-3961c11eb93b,760448,group,E,Germany,Ivory Coast,2026-06-20T20:00:00+00:00,"BMO Field, Toronto",home,2,1,home
+7ffce157-7a09-4f9f-aeba-688c61c13fd6,760446,group,E,Ecuador,Curaçao,2026-06-21T00:00:00+00:00,"GEHA Field at Arrowhead Stadium, Kansas City, Missouri",draw,0,0,
+a7fd6ae0-3e3a-42f0-9ae7-5bd0f7b8e2f8,760449,group,F,Tunisia,Japan,2026-06-21T04:00:00+00:00,"Estadio BBVA, Guadalupe",away,0,4,away
+5ad38f0d-bf1b-4b36-9323-ab27ecd2cd8e,760453,group,H,Spain,Saudi Arabia,2026-06-21T16:00:00+00:00,"Mercedes-Benz Stadium, Atlanta, Georgia",home,4,0,home
+5e25ac8a-564c-4604-9f3c-36d5ba73adfa,760451,group,G,Belgium,Iran,2026-06-21T19:00:00+00:00,"SoFi Stadium, Inglewood, California",draw,0,0,
+1c0bcd74-3ed5-41d1-887f-92d593632569,760450,group,H,Uruguay,Cape Verde,2026-06-21T22:00:00+00:00,"Hard Rock Stadium, Miami Gardens, Florida",draw,2,2,
+98bab5e1-e54f-4010-8e0b-371eef04573e,760452,group,G,New Zealand,Egypt,2026-06-22T01:00:00+00:00,"BC Place, Vancouver",away,1,3,away
+617c72c5-8b14-4d4d-8bd8-355f6f5bd5f1,760456,group,J,Argentina,Austria,2026-06-22T17:00:00+00:00,"AT&T Stadium, Arlington, Texas",home,2,0,home
+031685e8-a43f-42f4-a6a8-fe4f8fcbbdf2,760457,group,I,France,Iraq,2026-06-22T21:00:00+00:00,"Lincoln Financial Field, Philadelphia, Pennsylvania",home,3,0,home
+5973a45f-9c42-400c-b547-422deb873bb5,760454,group,I,Norway,Senegal,2026-06-23T00:00:00+00:00,"MetLife Stadium, East Rutherford, New Jersey",home,3,2,home
+b182c30b-48a8-4a36-a443-c6b1c454fd09,760455,group,J,Jordan,Algeria,2026-06-23T03:00:00+00:00,"Levi's Stadium, Santa Clara, California",away,1,2,away
+ee35b9ab-03be-417a-9860-93713567097e,760461,group,K,Portugal,Uzbekistan,2026-06-23T17:00:00+00:00,"NRG Stadium, Houston, Texas",home,5,0,home
+226d98bf-e9ec-4c67-942b-67b81838619d,760458,group,L,England,Ghana,2026-06-23T20:00:00+00:00,"Gillette Stadium, Foxborough, Massachusetts",draw,0,0,
+835d0cec-8e1c-4590-ae39-e8f3bfc713cf,760460,group,L,Panama,Croatia,2026-06-23T23:00:00+00:00,"BMO Field, Toronto",away,0,1,away
+4e07b7f5-90b6-406c-9db5-8b8c4b15ad7a,760459,group,K,Colombia,Congo DR,2026-06-24T02:00:00+00:00,"Estadio Akron, Guadalajara",home,1,0,home
+6a2013e7-febf-4be1-b75b-517a56459823,760463,group,B,Switzerland,Canada,2026-06-24T19:00:00+00:00,"BC Place, Vancouver",home,2,1,home
+8a457d47-9095-47f2-9787-971ac2f2aa56,760462,group,B,Bosnia-Herzegovina,Qatar,2026-06-24T19:00:00+00:00,"Lumen Field, Seattle, Washington",home,3,1,home
+f405c49c-4553-480f-a40d-9e6e398fea24,760465,group,C,Scotland,Brazil,2026-06-24T22:00:00+00:00,"Hard Rock Stadium, Miami Gardens, Florida",away,0,3,away
+d1e483ee-9dcc-4f7e-b03a-e99a2f44bc81,760464,group,C,Morocco,Haiti,2026-06-24T22:00:00+00:00,"Mercedes-Benz Stadium, Atlanta, Georgia",home,4,2,home
+10c702fe-e336-4dc2-8204-f7f323e51888,760467,group,A,Czechia,Mexico,2026-06-25T01:00:00+00:00,"Estadio Banorte, Mexico City",away,0,3,away
+56abdc3c-5d55-404e-8546-49245c6bc4b9,760466,group,A,South Africa,Korea Republic,2026-06-25T01:00:00+00:00,"Estadio BBVA, Guadalupe",home,1,0,home
+f9d93f24-beec-406b-965b-7b4b8d0ac9c5,760468,group,E,Ecuador,Germany,2026-06-25T20:00:00+00:00,"MetLife Stadium, East Rutherford, New Jersey",home,2,1,home
+656585ab-d7db-4df3-b846-dec4756eb664,760473,group,E,Curaçao,Ivory Coast,2026-06-25T20:00:00+00:00,"Lincoln Financial Field, Philadelphia, Pennsylvania",away,0,2,away
+c4471847-7b6e-4b7b-aaf7-1c6624b96f86,760472,group,F,Tunisia,Netherlands,2026-06-25T23:00:00+00:00,"GEHA Field at Arrowhead Stadium, Kansas City, Missouri",away,1,3,away
+c4c463ec-80de-4398-8866-4d9745343f13,760471,group,F,Japan,Sweden,2026-06-25T23:00:00+00:00,"AT&T Stadium, Arlington, Texas",draw,1,1,
+57021676-294c-4c7e-ac20-8fce1f274ed4,760469,group,D,Paraguay,Australia,2026-06-26T02:00:00+00:00,"Levi's Stadium, Santa Clara, California",draw,0,0,
+1f368c29-5b1c-4707-b95b-3c6427d4f0c5,760470,group,D,Türkiye,United States,2026-06-26T02:00:00+00:00,"SoFi Stadium, Inglewood, California",home,3,2,home
+e74698c2-1769-4ea5-af72-1f0d4765039e,760475,group,I,Norway,France,2026-06-26T19:00:00+00:00,"Gillette Stadium, Foxborough, Massachusetts",away,1,4,away
+55aa986f-dd03-4a3f-a84b-467920315e34,760474,group,I,Senegal,Iraq,2026-06-26T19:00:00+00:00,"BMO Field, Toronto",home,5,0,home
+c165b560-446a-4c84-9378-c3a2092a31a8,760478,group,H,Cape Verde,Saudi Arabia,2026-06-27T00:00:00+00:00,"NRG Stadium, Houston, Texas",draw,0,0,
+168e3b1e-d86b-4a36-a2d0-a45b206429dc,760479,group,H,Uruguay,Spain,2026-06-27T00:00:00+00:00,"Estadio Akron, Guadalajara",away,0,1,away
+cb5d98b5-39fc-4e6b-8beb-87241da763e5,760476,group,G,Egypt,Iran,2026-06-27T03:00:00+00:00,"Lumen Field, Seattle, Washington",draw,1,1,
+947e6452-102e-4e97-ace3-d3091276def6,760477,group,G,New Zealand,Belgium,2026-06-27T03:00:00+00:00,"BC Place, Vancouver",away,1,5,away
+42ce25fd-8790-46b0-ac1c-360795e9e3d0,760480,group,L,Croatia,Ghana,2026-06-27T21:00:00+00:00,"Lincoln Financial Field, Philadelphia, Pennsylvania",home,2,1,home
+590b68cc-897d-44f6-b752-efbb575715eb,760485,group,L,Panama,England,2026-06-27T21:00:00+00:00,"MetLife Stadium, East Rutherford, New Jersey",away,0,2,away
+d36223f6-9a53-4bd1-98a6-0fc1f5bdc7f3,760481,group,K,Colombia,Portugal,2026-06-27T23:30:00+00:00,"Hard Rock Stadium, Miami Gardens, Florida",draw,0,0,
+a63cc8a8-a493-4cad-aae0-0e97b15ad6ed,760482,group,K,Congo DR,Uzbekistan,2026-06-27T23:30:00+00:00,"Mercedes-Benz Stadium, Atlanta, Georgia",home,3,1,home
+c6c3ed52-e608-4f5f-a249-42872312c7eb,760484,group,J,Algeria,Austria,2026-06-28T02:00:00+00:00,"GEHA Field at Arrowhead Stadium, Kansas City, Missouri",draw,3,3,
+154f09e9-9f7a-49f3-97e1-5f0541ea19f2,760483,group,J,Jordan,Argentina,2026-06-28T02:00:00+00:00,"AT&T Stadium, Arlington, Texas",away,1,3,away
+459bb708-45fa-413b-9eb1-c6aced8353f5,760486,r32,,South Africa,Canada,2026-06-28T19:00:00+00:00,"SoFi Stadium, Inglewood, California",away,0,1,away
+330a38f5-aee0-47fc-9e85-78836895dcbe,760487,r32,,Brazil,Japan,2026-06-29T17:00:00+00:00,"NRG Stadium, Houston, Texas",home,2,1,home
+521ccec7-3628-4e33-ab3a-fbdfd93e0451,760489,r32,,Germany,Paraguay,2026-06-29T20:30:00+00:00,"Gillette Stadium, Foxborough, Massachusetts",draw,1,1,away
+be0c1f4f-6f26-49ff-929b-f973aa5a6175,760488,r32,,Netherlands,Morocco,2026-06-30T01:00:00+00:00,"Estadio BBVA, Guadalupe",draw,1,1,away
+65b947b6-6c32-4adc-8c73-fbb6b5de7a03,760490,r32,,Ivory Coast,Norway,2026-06-30T17:00:00+00:00,"AT&T Stadium, Arlington, Texas",away,1,2,away
+53d9a926-1d2c-45ac-acec-037246545ad9,760492,r32,,France,Sweden,2026-06-30T21:00:00+00:00,"MetLife Stadium, East Rutherford, New Jersey",home,3,0,home
+229d7a31-ca5b-46e8-a809-ed02ae3c7af1,760491,r32,,Mexico,Ecuador,2026-07-01T02:00:00+00:00,"Estadio Banorte, Mexico City",home,2,0,home
+52bfb2c4-4a62-4967-81ba-7a0e7628dbe8,760495,r32,,England,Congo DR,2026-07-01T16:00:00+00:00,"Mercedes-Benz Stadium, Atlanta, Georgia",home,2,1,home
+bacbbbbf-90a8-4419-b004-a329eccc095c,760493,r32,,Belgium,Senegal,2026-07-01T20:00:00+00:00,"Lumen Field, Seattle, Washington",draw,2,2,home
+b7993530-91e3-40bd-b690-dfaf1ede0a65,760494,r32,,United States,Bosnia-Herzegovina,2026-07-02T00:00:00+00:00,"Levi's Stadium, Santa Clara, California",home,2,0,home
+f7ee84ed-ae71-4e5d-8261-4436a741e2ee,760497,r32,,Spain,Austria,2026-07-02T19:00:00+00:00,"SoFi Stadium, Inglewood, California",home,3,0,home
+75cb7bf2-b673-4ea3-9792-b678ae84b28d,760496,r32,,Portugal,Croatia,2026-07-02T23:00:00+00:00,"BMO Field, Toronto",home,2,1,home
+be497843-10ab-4384-b47f-401e831b3af2,760498,r32,,Switzerland,Algeria,2026-07-03T03:00:00+00:00,"BC Place, Vancouver",home,2,0,home
+5d08ef03-666c-4a8a-b11b-f8a8cf30e6fc,760499,r32,,Australia,Egypt,2026-07-03T18:00:00+00:00,"AT&T Stadium, Arlington, Texas",draw,1,1,away
+1eee6b06-b3e7-4929-9ace-e1cd261c214a,760500,r32,,Argentina,Cape Verde,2026-07-03T22:00:00+00:00,"Hard Rock Stadium, Miami Gardens, Florida",draw,1,1,home
+43f37737-b931-472b-9acf-49b522f5abcb,760501,r32,,Colombia,Ghana,2026-07-04T01:30:00+00:00,"GEHA Field at Arrowhead Stadium, Kansas City, Missouri",home,1,0,home
+ca7c40b6-6a36-4943-b2cf-65ce0811b9d2,760502,r16,,Canada,Morocco,2026-07-04T17:00:00+00:00,"NRG Stadium, Houston, Texas",away,0,3,away
+bfd3a4b7-8899-4175-a886-db090e9a316c,760503,r16,,Paraguay,France,2026-07-04T21:00:00+00:00,"Lincoln Financial Field, Philadelphia, Pennsylvania",away,0,1,away
+09058748-e390-40d7-8a97-61e70ce43884,760504,r16,,Brazil,Norway,2026-07-05T20:00:00+00:00,"MetLife Stadium, East Rutherford, New Jersey",away,1,2,away
+2c508da6-9743-437d-bbc6-ad9815a8a18e,760505,r16,,Mexico,England,2026-07-06T01:00:00+00:00,"Estadio Banorte, Mexico City",away,2,3,away
+9b15800c-2b54-40da-a2a3-382ea0ac7b6e,760506,r16,,Portugal,Spain,2026-07-06T19:00:00+00:00,"AT&T Stadium, Arlington, Texas",away,0,1,away
+122fd051-1b9b-4969-9e6b-16f1f0edeb9d,760507,r16,,United States,Belgium,2026-07-07T00:00:00+00:00,"Lumen Field, Seattle, Washington",away,1,4,away
+3565a219-c04c-4e2b-adc9-127a0557570d,760509,r16,,Argentina,Egypt,2026-07-07T16:00:00+00:00,"Mercedes-Benz Stadium, Atlanta, Georgia",home,3,2,home
+a6cae5a9-08fb-4733-aa8b-ba84e832a240,760508,r16,,Switzerland,Colombia,2026-07-07T20:00:00+00:00,"BC Place, Vancouver",draw,0,0,home
+5aa120a6-4eaf-4f67-a731-4b7086877e5e,760510,qf,,France,Morocco,2026-07-09T20:00:00+00:00,"Gillette Stadium, Foxborough, Massachusetts",home,2,0,home
+1e326f87-2872-4f6b-a4ea-8585def10fc5,760511,qf,,Spain,Belgium,2026-07-10T19:00:00+00:00,"SoFi Stadium, Inglewood, California",home,2,1,home
+4f335834-a463-4101-a44b-a3df2973f6a7,760512,qf,,Norway,England,2026-07-11T21:00:00+00:00,"Hard Rock Stadium, Miami Gardens, Florida",draw,1,1,away
+634d3726-1699-429f-a4de-9f131af33386,760513,qf,,Argentina,Switzerland,2026-07-12T01:00:00+00:00,"GEHA Field at Arrowhead Stadium, Kansas City, Missouri",draw,1,1,home
+c7c80153-3c13-4e66-a373-d494b41901c5,760514,sf,,France,Spain,2026-07-14T19:00:00+00:00,"AT&T Stadium, Arlington, Texas",away,0,2,away
+a9976111-7b86-4fb9-84f4-87da0d25aa35,760515,sf,,England,Argentina,2026-07-15T19:00:00+00:00,"Mercedes-Benz Stadium, Atlanta, Georgia",away,1,2,away
+23f14ee7-a564-477a-8aac-9a2159119ea9,760516,third,,France,England,2026-07-18T21:00:00+00:00,"Hard Rock Stadium, Miami Gardens, Florida",away,4,6,
+97d8d909-6147-4020-9146-38ee43671cda,760517,final,,Spain,Argentina,2026-07-19T19:00:00+00:00,"MetLife Stadium, East Rutherford, New Jersey",draw,0,0,

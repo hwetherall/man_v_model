@@ -1,0 +1,4 @@
+player,source,matches_scored,correct_picks,exact_scores,match_points,champion_bonus,overall_points
+Me,harry,81,46,11,68,5,73
+Model,pele,81,43,11,65,8,73
+Market,crowd,81,45,8,61,10,71
